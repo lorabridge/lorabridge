@@ -19,3 +19,9 @@
 [submodule "gateway-home-assistant"]
 	path = gateway-home-assistant
 	url = git@github.com:lorabridge/gateway-home-assistant.git
+[submodule "bridge/bridge-forwarder"]
+	path = bridge/bridge-forwarder
+	url = git@github.com:lorabridge/bridge-forwarder.git
+[submodule "bridge/bridge-lorawan_tx"]
+	path = bridge/bridge-lorawan_tx
+	url = git@github.com:lorabridge/bridge-lorawan_tx.git
