@@ -25,3 +25,18 @@
 [submodule "bridge/bridge-lorawan_tx"]
 	path = bridge/bridge-lorawan_tx
 	url = git@github.com:lorabridge/bridge-lorawan_tx.git
+[submodule "gateway/gateway-home-assistant"]
+	path = gateway/gateway-home-assistant
+	url = git@github.com:lorabridge/gateway-home-assistant.git
+[submodule "gateway/gateway-ha_integration"]
+	path = gateway/gateway-ha_integration
+	url = git@github.com:lorabridge/gateway-ha_integration.git
+[submodule "gateway/gateway-forwarder"]
+	path = gateway/gateway-forwarder
+	url = git@github.com:lorabridge/gateway-forwarder.git
+[submodule "gateway/gateway-device_manager"]
+	path = gateway/gateway-device_manager
+	url = git@github.com:lorabridge/gateway-device_manager.git
+[submodule "gateway/gateway-converter"]
+	path = gateway/gateway-converter
+	url = git@github.com:lorabridge/gateway-converter.git
