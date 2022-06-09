@@ -1,0 +1,57 @@
+
+# HA integration plugin task: Listens to LoRaBridge discovery/state update MQTT and converts them
+			      to HA MQTT discovery topics
+
+
+
+
+Pseudo:
+
+IF incoming MQTT from LoRabridge discovery topic:
+
+	craft & publish HA discovery topic according to: https://www.home-assistant.io/docs/mqtt/discovery/
+
+IF incoming MQTT from LoRaBridge state update topic:
+
+	craft & publish HA state update topic accordin to: https://www.home-assistant.io/docs/mqtt/discovery/
+
+
+#### Example conversion LoRaBridge discovery -> HA discovery #####
+
+MQTT in:
+
+/lorabridge/discovery -> {"ID", 1, "measurement", "temperature"}
+
+Get measurement:
+measurement_type = "temperature"
+
+MQTT out:
+
+topic: /homeassistant/sensor/lorabridge_sensor<ID>_<measurement_type>/config
+
+IF <measurement_type> == "temperature":
+	message: '{"name": "lorabridge_sensor<ID>_<measurement_type>", "device_class": <measurement_type>, "state_topic": "<topic>/state", "unit_of_measurement": "°C", "value_template": "{{ value_json.temperature}}"}'
+ELSE:
+	error
+
+
+#### Example conversion LoRaBridge status -> HA status #####
+
+MQTT in:
+
+/lorabridge/state -> {"ID":1,"measurement":"temperature","value": 24.9 }
+
+Get measurement:
+measurement_type = "temperature"
+
+MQTT out:
+
+topic: /homeassistant/sensor/lorabridge_sensor<ID>_<measurement_type>/state
+
+message: { <measurement_type>: <measurement_value> }
+
+#!!!: Use retain flag for HA: publish(topic, payload=Message, qos=0, retain=True)
+
+
+
+

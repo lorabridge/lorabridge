@@ -1,0 +1,121 @@
+# SELECT TOOLCHAIN GNU/IAR/KEIL
+TOOLCHAIN = keil
+
+# EDIT CONFIGURATIONS BELOW TO REFLECT COMPILER INSTALL DIR AND CMSIS INCLUDE DIR 
+
+# IAR TOOLCHAIN
+ifeq (${TOOLCHAIN}, iar)
+IAR = C:/PROGRA~2/IARSYS~1/EMBEDD~1.5_2/arm
+INC = ${IAR}/CMSIS/Include
+CC  = ${IAR}/bin/iccarm
+AS  = ${IAR}/bin/iasmarm
+LN  = ${IAR}/bin/ilinkarm
+HEX = ${IAR}/bin/ielftool --ihex
+BIN = ${IAR}/bin/ielftool --bin
+
+CCOPTS  = --cpu=Cortex-M3 --endian=little --diag_suppress Pa050,Pa089,Pe066
+ASOPTS  = --cpu Cortex-M3
+LNOPTS  = --semihosting --config ${IAR}/config/linker/ST/STM32L152xB.icf
+endif
+
+# KEIL TOOLCHAIN
+ifeq (${TOOLCHAIN}, keil)
+KEIL = C:/Keil_v5
+INC = ${KEIL}/ARM/Pack/ARM/CMSIS/4.1.0/CMSIS/Include
+CC  = ${KEIL}/ARM/ARMCC/bin/armcc.exe
+AS  = ${KEIL}/ARM/ARMCC/bin/armasm.exe
+LN  = ${KEIL}/ARM/ARMCC/bin/armlink.exe
+HEX = ${KEIL}/ARM/ARMCC/bin/fromelf.exe --i32
+BIN = ${KEIL}/ARM/ARMCC/bin/fromelf.exe --bin
+
+CCOPTS  = --cpu=Cortex-M3 -c --c99 -D__MICROLIB --apcs=interwork --split_sections
+ASOPTS  = --cpu Cortex-M3 --pd "__MICROLIB SETA 1"
+LNOPTS  = --library_type=microlib --ro-base 0x08000000 --entry 0x08000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes
+HEXOPTS = --output
+endif
+
+# GNU TOOLCHAIN
+ifeq (${TOOLCHAIN}, gnu)
+GNU = /opt/arm-gnu-toolchain-4.9.3.475/arm-none-eabi
+CC  = ${GNU}/bin/arm-none-eabi-gcc
+AS  = ${GNU}/bin/arm-none-eabi-as
+LN  = ${GNU}/bin/arm-none-eabi-gcc
+HEX = ${GNU}/bin/arm-none-eabi-objcopy -O ihex
+BIN = ${GNU}/bin/arm-none-eabi-objcopy -O binary
+
+# OpenOCD
+OPENOCD := /opt/openocd-0.9.0/bin/openocd
+
+CMSIS_INC = ../../stm32/CMSIS/Include
+define CMSIS_MSG
+ERROR: CMSIS Library missing: $(CMSIS_INC)
+## CMSIS: Cortex Microcontroller Software Interface Standard
+## CMSIS Library can be obtained from the STM32L1xx standard peripherals library
+## Download URL: www.st.com/web/catalog/tools/FM147/CL1794/SC961/SS1743/PF257913
+endef
+ifeq (,$(wildcard $(CMSIS_INC)))
+$(error $(CMSIS_MSG))
+endif
+
+LINKER_SCRIPT =  ../../stm32/STM32L152VB_FLASH.ld
+define LNK_SCRIPT_MSG
+ERROR: Linker Script missing: $(LINKER_SCRIPT)
+## Linker Script can be obtained from the STM32L1xx standard peripherals library
+## Download URL: www.st.com/web/catalog/tools/FM147/CL1794/SC961/SS1743/PF257913
+endef
+ifeq (,$(wildcard $(LINKER_SCRIPT)))
+$(error $(LNK_SCRIPT_MSG))
+endif
+
+INC = $(CMSIS_INC)
+
+CPU    = -mcpu=cortex-m3 -mthumb
+CCOPTS = $(CPU) -c -std=gnu99
+CCOPTS += -fno-common -fmessage-length=0 -fno-builtin -fno-exceptions -ffunction-sections -fdata-sections -fomit-frame-pointer -MMD -MP
+ASOPTS = $(CPU)
+LNOPTS = $(CPU) -Wl,--gc-sections -T$(LINKER_SCRIPT)
+endif
+
+# LMIC CONFIG
+LMICCFG += -DSTM32L1XX_MD -DCFG_DEBUG -DCFG_eu868 -DCFG_wimod_board -DCFG_sx1272_radio -DCFG_lmic_clib
+
+LMICDIR  = ../../lmic
+HALDIR   = ../../stm32
+TOOLSDIR   = ../../tools
+BUILDDIR = build
+
+# RULES
+SRCS = $(notdir $(wildcard ${LMICDIR}/*.c ${HALDIR}/*.c ${HALDIR}/*_${TOOLCHAIN}.s *.c))
+OBJS = $(patsubst %, ${BUILDDIR}/%.o, $(basename ${SRCS}))
+
+VPATH = ${LMICDIR} ${HALDIR} .
+
+${BUILDDIR}/%.o: %.c | ${BUILDDIR}
+	${CC} ${CCOPTS} ${LMICCFG} -I${INC} -I${LMICDIR} -I${HALDIR} $< -o$@
+
+${BUILDDIR}/%.o: %.s | ${BUILDDIR}
+	${AS} ${ASOPTS} -I${INC} $< -o $@ 
+
+${BUILDDIR}/%.out: ${OBJS}
+	${LN} ${LNOPTS} -o $@ $^
+
+${BUILDDIR}/%.hex: ${BUILDDIR}/%.out
+	${HEX} $< ${HEXOPTS} $@
+
+${BUILDDIR}/%.bin: ${BUILDDIR}/%.out
+	${BIN} $< ${HEXOPTS} $@
+
+all: ${BUILDDIR}/$(notdir ${CURDIR}).bin ${BUILDDIR}/$(notdir ${CURDIR}).hex
+
+clean:
+	rm -rf ${BUILDDIR} Debug RTE settings *.dep *.bak *.sfr *.map *.uvguix.*
+
+load: ${BUILDDIR}/$(notdir ${CURDIR}).bin
+	$(OPENOCD) -f $(TOOLSDIR)/openocd/wimod.cfg  -f $(TOOLSDIR)/openocd/flash.cfg -c "flash_binary $<"
+
+${BUILDDIR}:
+	mkdir $@
+
+.PHONY: all clean
+
+.SECONDARY:

@@ -1,0 +1,50 @@
+#
+# 2017-04-12 Wolfgang Klenk
+#
+# Adapted for use on Raspberry Pi and Dragino LoRa/GPS HAT
+# working in EU868 MHz Band
+
+# LMIC CONFIG
+LMICCFG += -DCFG_DEBUG -DCFG_eu868 -DCFG_sx1276_radio -DDEBUG_LMIC -DDEBUG_HAL
+
+CCOPTS = -c -std=gnu99
+
+LNOPTS = -lwiringPi -lhiredis
+INC = .
+CC = gcc
+LN = gcc
+
+LMICDIR  = libs/lmic
+HALDIR   = libs/lora_gps_hat
+TOOLSDIR   = libs/tools
+BUILDDIR = build
+
+
+# RULES
+SRCS = $(notdir $(wildcard ${LMICDIR}/*.c ${HALDIR}/*.c ${HALDIR}/*_${TOOLCHAIN}.s *.c))
+OBJS = $(patsubst %, ${BUILDDIR}/%.o, $(basename ${SRCS}))
+
+VPATH = ${LMICDIR} ${HALDIR} .
+
+${BUILDDIR}/%.o: %.c | ${BUILDDIR}
+	${CC} ${CCOPTS} ${LMICCFG} -I${INC} -I${LMICDIR} -I${HALDIR} $< -o$@
+
+${BUILDDIR}/%.o: %.s | ${BUILDDIR}
+	${AS} ${ASOPTS} -I${INC} $< -o $@ 
+
+${BUILDDIR}/%.out: ${OBJS}
+	${LN} -o $@ $^ ${LNOPTS}
+
+
+#all: ${BUILDDIR}/$(notdir ${CURDIR}).out ${BUILDDIR}/$(notdir ${CURDIR}).bin ${BUILDDIR}/$(notdir ${CURDIR}).hex
+all: ${BUILDDIR}/$(notdir ${CURDIR}).out 
+
+clean:
+	rm -rf ${BUILDDIR} Debug RTE settings *.dep *.bak *.sfr *.map *.uvguix.*
+
+${BUILDDIR}:
+	mkdir $@
+
+.PHONY: all clean
+
+.SECONDARY:

@@ -1,0 +1,257 @@
+ac_frequency:
+    device_class: frequency
+    sensor_type: sensor
+alarm_humidity_max:
+    device_class: humidity
+    sensor_type: sensor
+alarm_humidity_min:
+    device_class: humidity
+    sensor_type: sensor
+alarm_temperature_max:
+    device_class: temperature
+    sensor_type: sensor
+alarm_temperature_min:
+    device_class: temperature
+    sensor_type: sensor
+aqi:
+    device_class: aqi
+    sensor_type: sensor
+battery:
+    device_class: battery
+    sensor_type: sensor
+battery2:
+    device_class: battery
+    sensor_type: sensor
+battery_low:
+    device_class: battery
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+battery_voltage:
+    device_class: voltage
+    sensor_type: sensor
+button_lock:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+calibration:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+carbon_monoxide:
+    device_class: safety
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+card:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+child_lock:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+co2:
+    device_class: carbon_dioxide
+    sensor_type: sensor
+color_sync:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+consumer_connected:
+    device_class: connectivity
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+contact:
+    device_class: door
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+cpu_temperature:
+    device_class: temperature
+    sensor_type: sensor
+current:
+    device_class: current
+    sensor_type: sensor
+current_phase_b:
+    device_class: current
+    sensor_type: sensor
+current_phase_c:
+    device_class: current
+    sensor_type: sensor
+device_temperature:
+    device_class: temperature
+    sensor_type: sensor
+eco2:
+    device_class: carbon_dioxide
+    sensor_type: sensor
+eco_mode:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+energy:
+    device_class: energy
+    sensor_type: sensor
+expose_pin:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+garage_door_contact:
+    device_class: garage_door
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+gas:
+    device_class: gas
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+humidity:
+    device_class: humidity
+    sensor_type: sensor
+illuminance:
+    device_class: illuminance
+    sensor_type: sensor
+illuminance_lux:
+    device_class: illuminance
+    sensor_type: sensor
+invert_cover:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+led_disabled_night:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+led_indication:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+legacy:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+local_temperature:
+    device_class: temperature
+    sensor_type: sensor
+motor_reversal:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+moving:
+    device_class: moving
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+no_position_support:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+occupancy:
+    device_class: motion
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+pm10:
+    device_class: pm10
+    sensor_type: sensor
+pm25:
+    device_class: pm25
+    sensor_type: sensor
+power:
+    device_class: power
+    sensor_type: sensor
+power_factor:
+    device_class: power_factor
+    sensor_type: sensor
+power_outage_memory:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+presence:
+    device_class: presence
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+pressure:
+    device_class: pressure
+    sensor_type: sensor
+smoke:
+    device_class: smoke
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+sos:
+    device_class: safety
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+tamper:
+    device_class: tamper
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+temperature:
+    device_class: temperature
+    sensor_type: sensor
+temperature_scale:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+test:
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+vibration:
+    device_class: vibration
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'
+voc:
+    device_class: volatile_organic_compounds
+    sensor_type: sensor
+voltage:
+    device_class: voltage
+    sensor_type: sensor
+voltage_phase_b:
+    device_class: voltage
+    sensor_type: sensor
+voltage_phase_c:
+    device_class: voltage
+    sensor_type: sensor
+water_leak:
+    device_class: moisture
+    sensor_type: binary_sensor
+    value_mapping:
+        false: 'OFF'
+        true: 'ON'

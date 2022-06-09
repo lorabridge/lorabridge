@@ -1,0 +1,8 @@
+Package: lorapktfwd       
+Version: 1               
+Section: free           
+Prioritt: optional     
+Architecture: armhf   
+Maintainer: dragino@dragino.com    
+Description: Lora pakeage forward  
+

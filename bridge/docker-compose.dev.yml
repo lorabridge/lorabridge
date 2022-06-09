@@ -1,0 +1,136 @@
+version: "3.8"
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mqtt
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      # - ./mosquitto/passwd:/mosquitto/passwd:ro
+      - mdata:/mosquitto/data
+      - mlog:/mosquitto/log
+    networks:
+      - lorabridgenet
+    # ports:
+    #   - "1883:1883"
+    #   - "9001:9001"
+  # generator:
+  #   build: generator
+  #   image: localhost/generator:latest
+  #   depends_on:
+  #     - mosquitto
+  #   environment:
+  #     - GEN_MQTT_USERNAME=${MQTT_USERNAME}
+  #     - GEN_MQTT_PASSWORD=${MQTT_PASSWORD}
+  #     - GEN_MQTT_HOST=${MQTT_HOST}
+  #     - GEN_MQTT_PORT=${MQTT_PORT}
+  #     - GEN_MQTT_TOPIC=${MQTT_TOPIC}
+  #     - GEN_INTERVAL_MS=${INTERVAL_MS}
+  #     - PYTHONUNBUFFERED=1
+  #   restart: unless-stopped
+  #   networks:
+  #     - lorabridgenet
+  forwarder:
+    build: bridge-forwarder
+    image: localhost/forwarder:latest
+    depends_on:
+      - mosquitto
+      - redis
+    environment:
+      - FOR_MQTT_USERNAME=${MQTT_USERNAME}
+      - FOR_MQTT_PASSWORD=${MQTT_PASSWORD}
+      - FOR_MQTT_HOST=${MQTT_HOST}
+      - FOR_MQTT_PORT=${MQTT_PORT}
+      - FOR_MQTT_BASE_TOPIC=${MQTT_TOPIC}
+      - FOR_MQTT_SUB_TOPIC=${MQTT_SUB_TOPIC}
+      - FOR_REDIS_HOST=${REDIS_HOST}
+      - FOR_REDIS_PORT=${REDIS_PORT}
+      - FOR_REDIS_DB=${REDIS_DB}
+      - FOR_REDIS_LIST=${REDIS_LIST}
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - lorabridgenet
+  redis:
+    image: redis:7-alpine
+    volumes:
+        - redis-data:/data
+    command: [
+            "sh", "-c",
+            '
+            docker-entrypoint.sh
+            --appendonly "yes"
+            '
+    ]
+    networks:
+        - lorabridgenet
+    # ports:
+    #     - "6379:6379"
+    restart: unless-stopped
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    volumes:
+      # - ./data:/app/data
+      - zdata:/app/data
+      - /run/udev:/run/udev:ro
+    # ports:
+    #   # Frontend port
+    #   - 8080:8080
+    environment:
+      - TZ=Europe/Vienna
+      - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/ttyUSB0
+      - ZIGBEE2MQTT_CONFIG_MQTT_SERVER=mqtt://mqtt:1883
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    group_add:
+      - dialout
+    depends_on:
+      - mosquitto
+    # user: 1337:1337
+    # entrypoint: "tail -f /dev/null"
+    networks:
+      - lorabridgenet
+  lorawan_tx:
+    build: bridge-lorawan_tx
+    image: localhost/lorawan_tx:latest
+    restart: unless-stopped
+    volumes:
+      # - ./data:/app/data
+      - /run/udev:/run/udev:ro
+      # - /sys/class/gpio:/sys/class/gpio
+      - /sys:/sys
+    environment:
+      - TZ=Europe/Vienna
+      - DEV_EUI=${LORA_DEV_EUI}
+      - DEV_KEY=${LORA_DEV_KEY}
+      - REDIS_LIST=${REDIS_LIST}
+      # - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/ttyUSB0
+    devices:
+      - /dev/spidev0.0:/dev/spidev0.0
+      - /dev/spidev0.1:/dev/spidev0.1
+      - /dev/gpiomem:/dev/gpiomem
+      # - /dev/mem:/dev/mem
+      # - /dev/ttyAMA0:/dev/ttyAMA0
+    # privileged: true
+    # cap_add:
+    #   - SYS_RAWIO
+    group_add:
+      - "999"
+      - "997"
+      # - spi
+    # user: 1337:1337
+    networks:
+      - lorabridgenet
+    depends_on:
+      - redis
+volumes:
+  mdata:
+  mlog:
+  redis-data:
+  zdata:
+networks:
+    lorabridgenet:
+        attachable: true
+        name: lorabridgenet

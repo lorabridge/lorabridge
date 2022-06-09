@@ -1,0 +1,26 @@
+{
+    "version": 1,
+    "minor_version": 1,
+    "key": "core.config_entries",
+    "data": {
+        "entries": [
+            {
+                "entry_id": "b7d0dbdec6accb1489abbb7c830a6826",
+                "version": 1,
+                "domain": "mqtt",
+                "title": "mqtt",
+                "data": {
+                    "broker": "mqtt",
+                    "port": 1883,
+                    "discovery": true
+                },
+                "options": {},
+                "pref_disable_new_entities": false,
+                "pref_disable_polling": false,
+                "source": "user",
+                "unique_id": null,
+                "disabled_by": null
+            }
+        ]
+    }
+}

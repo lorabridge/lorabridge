@@ -1,0 +1,216 @@
+version: "3.8"
+services:
+  chirpstack-network-server:
+    image: chirpstack/chirpstack-network-server:3
+    environment:
+      - POSTGRESQL__DSN=postgres://chirpstack_ns:chirpstack_ns@postgresql/chirpstack_ns?sslmode=disable
+      - REDIS__URL=redis://redis:6379
+      - NETWORK_SERVER__BAND__NAME=EU868
+      - NETWORK_SERVER__GATEWAY__BACKEND__MQTT__SERVER=tcp://mqtt:1883
+      - JOIN_SERVER__DEFAULT__SERVER=http://chirpstack-application-server:8003
+    depends_on:
+      - postgresql
+      - mosquitto
+      - redis
+    networks:
+      - loragatenet
+    restart: unless-stopped
+    # read_only: true
+
+  chirpstack-application-server:
+    image: chirpstack/chirpstack-application-server:3
+    ports:
+      - 8080:8080
+    volumes:
+      - ./configuration/chirpstack-application-server:/etc/chirpstack-application-server
+    environment:
+      - POSTGRESQL__DSN=postgres://chirpstack_as:chirpstack_as@postgresql/chirpstack_as?sslmode=disable
+      - REDIS__URL=redis://redis:6379
+      - APPLICATION_SERVER__INTEGRATION__MQTT__SERVER=tcp://mqtt:1883
+      - APPLICATION_SERVER__API__PUBLIC_HOST=chirpstack-application-server:8001
+      - APPLICATION_SERVER__EXTERNAL_API__JWT_SECRET=verysecret
+      # chirpstack server seems to always escape quotes, unable to pass per env vars
+      # - APPLICATION_SERVER__INTEGRATION__ENABLED=["mqtt", "postgresql"]
+      - APPLICATION_SERVER__INTEGRATION__POSTGRESQL__DSN=postgres://chirpstack_as_events:chirpstack_as_events@postgresql/chirpstack_as_events?sslmode=disable
+    depends_on:
+      - chirpstack-network-server
+      - redis
+      - postgresql
+    networks:
+      - loragatenet
+    restart: unless-stopped
+    # read_only: true
+
+  chirpstack-gateway-bridge:
+    image: chirpstack/chirpstack-gateway-bridge:3
+    # ports:
+    #   - 1700:1700/udp
+    environment:
+      - INTEGRATION__MQTT__AUTH__GENERIC__SERVERS=tcp://mosquitto:1883
+    depends_on: 
+      - mosquitto
+    networks:
+      - loragatenet
+    restart: unless-stopped
+    # read_only: true
+
+  postgresql:
+    image: postgres:14-alpine
+    # image: postgres:9.6-alpine
+    environment:
+      - POSTGRES_PASSWORD=root 
+      - POSTGRES_DEV_EUI=${CHIRPSTACK_DEV_EUI}
+      - POSTGRES_DEV_KEY=${CHIRPSTACK_DEV_KEY}
+    volumes:
+      - ./configuration/postgresql/initdb:/docker-entrypoint-initdb.d
+      - postgresqldata:/var/lib/postgresql/data
+    networks:
+      - loragatenet
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    # image: redis:5-alpine
+    volumes:
+      - redisdata:/data
+    networks:
+      - loragatenet
+    restart: unless-stopped
+    command: [
+            "sh", "-c",
+            '
+            docker-entrypoint.sh
+            --appendonly "yes"
+            '
+    ]
+
+  # chirpstack network server does not work with eclipse-mosquitto:2 (as of 05/2022)
+  mosquitto:
+    image: eclipse-mosquitto:1.6
+    container_name: mqtt
+    # ports:
+    #   - 1883:1883
+    networks:
+      - loragatenet
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      # - ./mosquitto/passwd:/mosquitto/passwd:ro
+      - mdata:/mosquitto/data
+      - mlog:/mosquitto/log
+
+  gateway_fwd:
+    build: gateway-forwarder
+    image: localhost/gateway_fwd:latest
+    restart: unless-stopped
+    volumes:
+      # - ./data:/app/data
+      # - /run/udev:/run/udev:ro
+      # - /sys/class/gpio:/sys/class/gpio
+      - /sys:/sys
+    environment:
+      - TZ=Europe/Vienna
+      # - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/ttyUSB0
+    devices:
+      - /dev/spidev0.0:/dev/spidev0.0
+      - /dev/spidev0.1:/dev/spidev0.1
+    #   - /dev/gpiomem:/dev/gpiomem
+      # - /dev/mem:/dev/mem
+      # - /dev/ttyAMA0:/dev/ttyAMA0
+    # privileged: true
+    # cap_add:
+    #   - SYS_RAWIO
+    group_add:
+      - "999"
+      - "997"
+      # - spi
+      # - gpio
+    # user: 1337:1337
+    networks:
+      - loragatenet
+    depends_on:
+      - chirpstack-gateway-bridge
+
+  homeassistant:
+    build: gateway-home-assistant
+    container_name: homeassistant
+    # image: "ghcr.io/home-assistant/home-assistant:stable"
+    depends_on: 
+      - mosquitto
+    volumes:
+      - homeassistant_data:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    # privileged: true
+    networks:
+      - loragatenet
+    ports:
+      - 8123:8123
+
+  converter:
+    build: gateway-converter
+    image: localhost/converter:latest
+    environment:
+      - CON_MQTT_USERNAME=${MQTT_USERNAME}
+      - CON_MQTT_PASSWORD=${MQTT_PASSWORD}
+      - CON_MQTT_HOST=${MQTT_HOST}
+      - CON_MQTT_PORT=${MQTT_PORT}
+      - CON_CHIRP_TOPIC=${CHIRP_TOPIC}
+      - CON_DEV_MAN_TOPIC=${DEV_MAN_TOPIC}
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - loragatenet
+    depends_on:
+      - mosquitto
+
+  ha_integration:
+    build: gateway-ha_integration
+    image: localhost/ha_integration:latest
+    environment:
+      - HA_MQTT_USERNAME=${MQTT_USERNAME}
+      - HA_MQTT_PASSWORD=${MQTT_PASSWORD}
+      - HA_MQTT_HOST=${MQTT_HOST}
+      - HA_MQTT_PORT=${MQTT_PORT}
+      - HA_STATE_TOPIC=${DEV_STATE_TOPIC}
+      - HA_DISCOVERY_TOPIC=${DEV_DISCOVERY_TOPIC}
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - loragatenet
+    depends_on:
+      - mosquitto
+
+  device_manager:
+    build: gateway-device_manager
+    image: localhost/device_manager:latest
+    environment:
+      - DEV_MQTT_USERNAME=${MQTT_USERNAME}
+      - DEV_MQTT_PASSWORD=${MQTT_PASSWORD}
+      - DEV_MQTT_HOST=${MQTT_HOST}
+      - DEV_MQTT_PORT=${MQTT_PORT}
+      - DEV_MAN_TOPIC=${DEV_MAN_TOPIC}
+      - DEV_REDIS_HOST=${REDIS_HOST}
+      - DEV_REDIS_PORT=${REDIS_PORT}
+      - DEV_REDIS_DB=${REDIS_DB}
+      - DEV_STATE_TOPIC=${DEV_STATE_TOPIC}
+      - DEV_DISCOVERY_TOPIC=${DEV_DISCOVERY_TOPIC}
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - loragatenet
+    depends_on:
+      - mosquitto
+      - redis
+
+volumes:
+  postgresqldata:
+  redisdata:
+  homeassistant_data:
+  mdata:
+  mlog:
+
+networks:
+    loragatenet:
+        attachable: true
+        name: loragatenet
