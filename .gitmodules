@@ -22,3 +22,6 @@
 [submodule "bridge/bridge-device-sse"]
 	path = bridge/bridge-device-sse
 	url = git@github.com:lorabridge/bridge-device-sse.git
+[submodule "bridge/bridge-device-interface"]
+	path = bridge/bridge-device-interface
+	url = git@github.com:lorabridge/bridge-device-interface.git
