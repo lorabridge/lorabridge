@@ -19,3 +19,6 @@
 [submodule "gateway/gateway-converter"]
 	path = gateway/gateway-converter
 	url = git@github.com:lorabridge/gateway-converter.git
+[submodule "bridge/bridge-device-sse"]
+	path = bridge/bridge-device-sse
+	url = git@github.com:lorabridge/bridge-device-sse.git

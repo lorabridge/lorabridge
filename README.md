@@ -11,3 +11,9 @@ pull updates with:
 ```bash
 git pull --recurse-submodules
 ```
+
+add new subodules with:
+
+```bash
+git submodule add git@github.com:lorabridge/<repo_name>.git <folder-name>
+```
