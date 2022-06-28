@@ -2,6 +2,8 @@ version: "3.8"
 services:
   chirpstack-network-server:
     image: chirpstack/chirpstack-network-server:3
+    volumes:
+      - ./configuration/chirpstack-network-server:/etc/chirpstack-network-server
     environment:
       - POSTGRESQL__DSN=postgres://chirpstack_ns:chirpstack_ns@postgresql/chirpstack_ns?sslmode=disable
       - REDIS__URL=redis://redis:6379
