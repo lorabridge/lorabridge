@@ -10,6 +10,7 @@ services:
       - NETWORK_SERVER__BAND__NAME=EU868
       - NETWORK_SERVER__GATEWAY__BACKEND__MQTT__SERVER=tcp://mqtt:1883
       - JOIN_SERVER__DEFAULT__SERVER=http://chirpstack-application-server:8003
+      - GENERAL__LOG_LEVEL=3
     depends_on:
       - postgresql
       - mosquitto
@@ -34,6 +35,7 @@ services:
       # chirpstack server seems to always escape quotes, unable to pass per env vars
       # - APPLICATION_SERVER__INTEGRATION__ENABLED=["mqtt", "postgresql"]
       - APPLICATION_SERVER__INTEGRATION__POSTGRESQL__DSN=postgres://chirpstack_as_events:chirpstack_as_events@postgresql/chirpstack_as_events?sslmode=disable
+      - GENERAL__LOG_LEVEL=3
     depends_on:
       - chirpstack-network-server
       - redis
@@ -49,6 +51,7 @@ services:
     #   - 1700:1700/udp
     environment:
       - INTEGRATION__MQTT__AUTH__GENERIC__SERVERS=tcp://mosquitto:1883
+      - GENERAL__LOG_LEVEL=3
     depends_on: 
       - mosquitto
     networks:
