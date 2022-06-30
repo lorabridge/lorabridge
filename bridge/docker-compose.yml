@@ -135,13 +135,29 @@ services:
     depends_on: 
       - redis
       - sse
+      - interface-basic-auth
     restart: on-failure
     networks: 
       - lorabridgenet
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
+    expose:
+      - 3000
     user: 1337:1337
     read_only: true
+  interface-basic-auth:
+    image: 'beevelop/nginx-basic-auth'
+    ports:
+      - '3000:80'
+    environment:
+      - PORT=80
+      - FORWARD_HOST=interface
+      - FORWARD_PORT=3000
+      ## escape $ with $$ in Docker yml due to variable expansion
+      ## example user/pass generated with htpasswd is foo:bar
+      - HTPASSWD=${BASIC_AUTH}
+    networks:
+      - lorabridgenet
   sse:
     # build:
     #   context: bridge-device-sse

@@ -20,3 +20,7 @@ It consists of following containers:
 This docker-compose.yml create an attachable network `lorabridgenet`. Other containers can be attached to this network, e.g. the `zigbee2mqtt` container.
 
 
+> Create htpasswd hashes with something like this:
+> ```bash
+> htpasswd -nbB <user> <passwd>
+> ```
