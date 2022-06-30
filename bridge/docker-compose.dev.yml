@@ -128,11 +128,11 @@ services:
   interface:
     build:
       context: bridge-device-interface
-      environment:
-      - VITE_SSE_ADDR=${SSE_ADDR}
       args:
-        # VITE_SSE_ADDR: http://sse:8080
+        VITE_SSE_ADDR: http://sse:8080
         VITE_REDIS_CONN_STRING: redis://redis:6379
+    # environment:
+      # - VITE_SSE_ADDR=${SSE_ADDR}
     image: localhost/interface:latest
     depends_on: 
       - redis
@@ -156,7 +156,7 @@ services:
     networks: 
       - lorabridgenet
     ports:
-      - "3000:3000"
+      - "8080:8080"
     # expose:
     #   - 8080
     user: 1337:1337
