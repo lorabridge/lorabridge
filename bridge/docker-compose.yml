@@ -158,6 +158,9 @@ services:
       ## escape $ with $$ in Docker yml due to variable expansion
       ## example user/pass generated with htpasswd is foo:bar
       - HTPASSWD=${BASIC_AUTH}
+      - HOST_HEADER=${HOST_HEADER}
+    volumes:
+      - ./basic_auth/auth.con:/opt/auth.conf:ro
     networks:
       - lorabridgenet
   sse:
