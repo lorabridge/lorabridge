@@ -160,7 +160,7 @@ services:
       - HTPASSWD=${BASIC_AUTH}
       - HOST_HEADER=${HOST_HEADER}
     volumes:
-      - ./basic_auth/auth.con:/opt/auth.conf:ro
+      - ./basic_auth/auth.conf:/opt/auth.conf:ro
     networks:
       - lorabridgenet
   sse:
