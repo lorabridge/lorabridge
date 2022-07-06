@@ -137,7 +137,6 @@ services:
     depends_on: 
       - redis
       - sse
-      - interface-basic-auth
     restart: on-failure
     networks: 
       - lorabridgenet
