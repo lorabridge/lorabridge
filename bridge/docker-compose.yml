@@ -163,6 +163,9 @@ services:
       - ./basic_auth/auth.conf:/opt/auth.conf:ro
     networks:
       - lorabridgenet
+    depends_on:
+      - interface
+    restart: on-failure
   sse:
     # build:
     #   context: bridge-device-sse
