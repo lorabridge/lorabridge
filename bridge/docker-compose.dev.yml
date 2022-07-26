@@ -129,10 +129,10 @@ services:
     build:
       context: bridge-device-interface
       args:
-        VITE_SSE_ADDR: http://sse:8080
+        # VITE_SSE_ADDR: http://sse:8080
         VITE_REDIS_CONN_STRING: redis://redis:6379
-    # environment:
-      # - VITE_SSE_ADDR=${SSE_ADDR}
+    environment:
+      - VITE_SSE_ADDR=http://sse:8080
     image: localhost/interface:latest
     depends_on: 
       - redis

@@ -132,8 +132,6 @@ services:
     #     VITE_SSE_ADDR: http://sse:8080
     #     VITE_REDIS_CONN_STRING: redis://redis:6379
     image: ghcr.io/lorabridge/bridge-device-interface:latest
-    environment:
-      - VITE_SSE_ADDR=${SSE_ADDR}
     depends_on: 
       - redis
       - sse
@@ -157,7 +155,7 @@ services:
       ## escape $ with $$ in Docker yml due to variable expansion
       ## example user/pass generated with htpasswd is foo:bar
       - HTPASSWD=${BASIC_AUTH}
-      - HOST_HEADER=${HOST_HEADER}
+      - HOST_HEADER=$$host
     volumes:
       - ./basic_auth/auth.conf:/opt/auth.conf:ro
     networks:
@@ -172,8 +170,6 @@ services:
     depends_on: 
       - zigbee2mqtt
     restart: on-failure
-    environment:
-      - ALLOW_FROM=${SSE_CORS_ALLOW_FROM}
     networks: 
       - lorabridgenet
     ports:
