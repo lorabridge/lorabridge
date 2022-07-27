@@ -151,8 +151,6 @@ services:
     depends_on: 
       - zigbee2mqtt
     restart: on-failure
-    environment:
-      - ALLOW_FROM=${SSE_CORS_ALLOW_FROM}
     networks: 
       - lorabridgenet
     ports:
