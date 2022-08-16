@@ -5,7 +5,7 @@ services:
     command: -c /etc/chirpstack
     restart: unless-stopped
     environment:
-      - POSTGRESQL_HOST=postgresql2
+      - POSTGRESQL_HOST=postgresql
       - REDIS_HOST=redis:6379
       - MQTT_BROKER_HOST=mqtt
       - LOG_LEVEL=warn
