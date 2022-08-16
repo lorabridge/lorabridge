@@ -12,7 +12,7 @@ services:
       - API_SECRET=verysecret
     volumes:
       - ./configuration/chirpstack:/etc/chirpstack
-      - ./lorawan-devices:/opt/lorawan-devices
+      # - ./lorawan-devices:/opt/lorawan-devices
     depends_on:
       - postgresql
       - mosquitto
@@ -24,8 +24,8 @@ services:
 
   chirpstack-gateway-bridge:
     image: chirpstack/chirpstack-gateway-bridge:4.0.0-rc.1
-    ports:
-      - 1700:1700/udp
+    # ports:
+    #   - 1700:1700/udp
     # volumes:
     #   - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
     environment:
