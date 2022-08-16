@@ -22,19 +22,19 @@ services:
     networks:
       - loragatenet
 
-  # chirpstack-gateway-bridge-eu868:
-  #   image: chirpstack/chirpstack-gateway-bridge:4.0.0-rc.1
-  #   ports:
-  #     - 1700:1700/udp
-  #   volumes:
-  #     - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
-  #   environment:
-  #     - INTEGRATION__MQTT__AUTH__GENERIC__SERVERS=tcp://mosquitto:1883
-  #     - LOGGING__LEVEL=warn
-  #   depends_on: 
-  #     - mosquitto
-  #   networks:
-  #     - loragatenet
+  chirpstack-gateway-bridge-eu868:
+    image: chirpstack/chirpstack-gateway-bridge:4.0.0-rc.1
+    ports:
+      - 1700:1700/udp
+    volumes:
+      - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
+    environment:
+      - INTEGRATION__MQTT__AUTH__GENERIC__SERVERS=tcp://mosquitto:1883
+      - LOGGING__LEVEL=warn
+    depends_on: 
+      - mosquitto
+    networks:
+      - loragatenet
 
   postgresql:
     image: postgres:14-alpine
@@ -104,19 +104,19 @@ services:
   #   restart: unless-stopped
   #   # read_only: true
 
-  chirpstack-gateway-bridge:
-    image: chirpstack/chirpstack-gateway-bridge:3
-    # ports:
-    #   - 1700:1700/udp
-    environment:
-      - INTEGRATION__MQTT__AUTH__GENERIC__SERVERS=tcp://mosquitto:1883
-      - GENERAL__LOG_LEVEL=3
-    depends_on: 
-      - mosquitto
-    networks:
-      - loragatenet
-    restart: unless-stopped
-    # read_only: true
+  # chirpstack-gateway-bridge:
+  #   image: chirpstack/chirpstack-gateway-bridge:3
+  #   # ports:
+  #   #   - 1700:1700/udp
+  #   environment:
+  #     - INTEGRATION__MQTT__AUTH__GENERIC__SERVERS=tcp://mosquitto:1883
+  #     - GENERAL__LOG_LEVEL=3
+  #   depends_on: 
+  #     - mosquitto
+  #   networks:
+  #     - loragatenet
+  #   restart: unless-stopped
+  #   # read_only: true
 
   # postgresql:
   #   image: postgres:14-alpine
