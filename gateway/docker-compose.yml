@@ -26,11 +26,11 @@ services:
     image: chirpstack/chirpstack-gateway-bridge:4.0.0-rc.1
     ports:
       - 1700:1700/udp
-    volumes:
-      - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
+    # volumes:
+    #   - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
     environment:
       - INTEGRATION__MQTT__AUTH__GENERIC__SERVERS=tcp://mosquitto:1883
-      - LOGGING__LEVEL=warn
+      - GENERAL__LOG_LEVEL=4
     depends_on: 
       - mosquitto
     networks:
@@ -193,7 +193,7 @@ services:
     networks:
       - loragatenet
     depends_on:
-      - chirpstack-gateway-bridge
+      - chirpstack-gateway-bridge-eu868
 
   homeassistant:
     # build: gateway-home-assistant
