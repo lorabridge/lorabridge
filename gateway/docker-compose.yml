@@ -22,7 +22,7 @@ services:
     networks:
       - loragatenet
 
-  chirpstack-gateway-bridge-eu868:
+  chirpstack-gateway-bridge:
     image: chirpstack/chirpstack-gateway-bridge:4.0.0-rc.1
     ports:
       - 1700:1700/udp
@@ -193,7 +193,7 @@ services:
     networks:
       - loragatenet
     depends_on:
-      - chirpstack-gateway-bridge-eu868
+      - chirpstack-gateway-bridge
 
   homeassistant:
     # build: gateway-home-assistant
