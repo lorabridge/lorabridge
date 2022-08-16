@@ -153,7 +153,7 @@ services:
 
   # chirpstack network server does not work with eclipse-mosquitto:2 (as of 05/2022)
   mosquitto:
-    image: eclipse-mosquitto:1.6
+    image: eclipse-mosquitto:2
     container_name: mqtt
     # ports:
     #   - 1883:1883
