@@ -100,7 +100,15 @@ services:
       # - ./data:/app/data
       - /run/udev:/run/udev:ro
       # - /sys/class/gpio:/sys/class/gpio
-      - /sys:/sys
+      # - /sys:/sys
+      # "remove" read-only sysfs mounted by docker
+      - /sys
+      # bind mound necessary gpio stuff
+      - /sys/class/gpio:/sys/class/gpio
+      - /sys/devices/platform/soc/fe200000.gpio:/sys/devices/platform/soc/fe200000.gpio
+      - type: bind
+        source: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
+        target: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
     environment:
       - TZ=Europe/Vienna
       - DEV_EUI=${LORA_DEV_EUI}
