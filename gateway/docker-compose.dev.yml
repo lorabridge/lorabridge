@@ -9,7 +9,7 @@ services:
       - REDIS_HOST=redis:6379
       - MQTT_BROKER_HOST=mqtt
       - LOG_LEVEL=warn
-      - API_SECRET=verysecret
+      - API_SECRET=${CHIRPSTACK_API_SECRET}
     volumes:
       - ./configuration/chirpstack:/etc/chirpstack
       # - ./lorawan-devices:/opt/lorawan-devices

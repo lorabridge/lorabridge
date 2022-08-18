@@ -126,11 +126,13 @@ services:
       - "999"
       - "997"
       # - spi
+    # needs root, because of /sys
     # user: 1337:1337
     networks:
       - lorabridgenet
     depends_on:
       - redis
+    read_only: true
   interface:
     build:
       context: bridge-device-interface
