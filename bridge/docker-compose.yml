@@ -50,6 +50,17 @@ services:
     restart: unless-stopped
     networks:
       - lorabridgenet
+  lcd-ui:
+    # build: bridge-forwarder
+    image: ghcr.io/lorabridge/bridge-lcd-ui:latest
+    depends_on:
+      - mosquitto
+      - redis
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - lorabridgenet
   redis:
     image: redis:7-alpine
     volumes:

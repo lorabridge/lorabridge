@@ -51,6 +51,17 @@ services:
     restart: unless-stopped
     networks:
       - lorabridgenet
+  lcd-ui:
+    build: bridge-lcd-ui
+    image: localhost/bridge-lcd-ui:latest
+    depends_on:
+      - mosquitto
+      - redis
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - lorabridgenet
   redis:
     image: redis:7-alpine
     volumes:
