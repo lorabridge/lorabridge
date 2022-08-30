@@ -25,3 +25,6 @@
 [submodule "bridge/bridge-device-interface"]
 	path = bridge/bridge-device-interface
 	url = git@github.com:lorabridge/bridge-device-interface.git
+[submodule "bridge/bridge-lcd-ui"]
+	path = bridge/bridge-lcd-ui
+	url = git@github.com:lorabridge/bridge-lcd-ui.git
