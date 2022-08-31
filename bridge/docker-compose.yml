@@ -56,6 +56,13 @@ services:
     depends_on:
       - mosquitto
       - redis
+    volumes:
+      # bind mount necessary gpio stuff
+      - /sys/class/gpio:/sys/class/gpio
+      - /sys/devices/platform/soc/fe200000.gpio:/sys/devices/platform/soc/fe200000.gpio
+      - type: bind
+        source: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
+        target: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
     environment:
       - FOR_MQTT_HOST=${MQTT_HOST}
       - FOR_MQTT_PORT=${MQTT_PORT}
@@ -68,6 +75,14 @@ services:
     devices:
       - /dev/spidev0.0:/dev/spidev0.0
       - /dev/spidev0.1:/dev/spidev0.1
+      - /dev/gpiomem:/dev/gpiomem
+      - /dev/i2c-1:/dev/i2c-1
+      - /dev/i2c-20:/dev/i2c-20
+      - /dev/i2c-21:/dev/i2c-21
+    group_add:
+      - "999"
+      - "997"
+      - "998"
     networks:
       - lorabridgenet
   redis:

@@ -54,6 +54,13 @@ services:
   lcd-ui:
     build: bridge-lcd-ui
     image: localhost/bridge-lcd-ui:latest
+    volumes:
+      # bind mount necessary gpio stuff
+      - /sys/class/gpio:/sys/class/gpio
+      - /sys/devices/platform/soc/fe200000.gpio:/sys/devices/platform/soc/fe200000.gpio
+      - type: bind
+        source: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
+        target: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
     depends_on:
       - mosquitto
       - redis
@@ -68,6 +75,17 @@ services:
     restart: unless-stopped
     networks:
       - lorabridgenet
+    devices:
+      - /dev/spidev0.0:/dev/spidev0.0
+      - /dev/spidev0.1:/dev/spidev0.1
+      - /dev/gpiomem:/dev/gpiomem
+      - /dev/i2c-1:/dev/i2c-1
+      - /dev/i2c-20:/dev/i2c-20
+      - /dev/i2c-21:/dev/i2c-21
+    group_add:
+      - "999"
+      - "997"
+      - "998"
   redis:
     image: redis:7-alpine
     volumes:
