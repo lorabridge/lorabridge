@@ -63,6 +63,7 @@ services:
       - type: bind
         source: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
         target: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
+      - ofelia:/ofelia:ro
     environment:
       - FOR_MQTT_HOST=${MQTT_HOST}
       - FOR_MQTT_PORT=${MQTT_PORT}
@@ -85,6 +86,13 @@ services:
       - "998"
     networks:
       - lorabridgenet
+  ofelia:
+    image: mcuadros/ofelia:latest
+    network_mode: host
+    volumes:
+      - ./config/ofelia.conf:/etc/ofelia.conf:ro
+      - ofelia:/ofelia
+    command: daemon
   redis:
     image: redis:7-alpine
     volumes:
@@ -227,6 +235,7 @@ volumes:
   mlog:
   redis-data:
   zdata:
+  ofelia:
 networks:
     lorabridgenet:
         attachable: true

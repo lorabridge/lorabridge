@@ -61,6 +61,7 @@ services:
       - type: bind
         source: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
         target: /sys/devices/platform/soc/soc:firmware/soc:firmware:gpio
+      - ofelia:/ofelia:ro
     depends_on:
       - mosquitto
       - redis
@@ -86,6 +87,13 @@ services:
       - "999"
       - "997"
       - "998"
+  ofelia:
+    image: mcuadros/ofelia:latest
+    network_mode: host
+    volumes:
+      - ./config/ofelia.conf:/etc/ofelia.conf:ro
+      - ofelia:/ofelia
+    command: daemon
   redis:
     image: redis:7-alpine
     volumes:
@@ -209,6 +217,7 @@ volumes:
   mlog:
   redis-data:
   zdata:
+  ofelia:
 networks:
     lorabridgenet:
         attachable: true
