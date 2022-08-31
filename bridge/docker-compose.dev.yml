@@ -58,6 +58,12 @@ services:
       - mosquitto
       - redis
     environment:
+      - FOR_MQTT_HOST=${MQTT_HOST}
+      - FOR_MQTT_PORT=${MQTT_PORT}
+      - FOR_MQTT_BASE_TOPIC=${MQTT_TOPIC}
+      - FOR_REDIS_HOST=${REDIS_HOST}
+      - FOR_REDIS_PORT=${REDIS_PORT}
+      - FOR_REDIS_DB=${REDIS_DB}
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
     networks:

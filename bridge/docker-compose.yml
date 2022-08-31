@@ -65,6 +65,9 @@ services:
       - FOR_REDIS_DB=${REDIS_DB}
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
+    devices:
+      - /dev/spidev0.0:/dev/spidev0.0
+      - /dev/spidev0.1:/dev/spidev0.1
     networks:
       - lorabridgenet
   redis:
