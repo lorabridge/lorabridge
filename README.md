@@ -13,6 +13,12 @@ pull updates with:
 git pull --recurse-submodules
 ```
 
+or
+
+```bash
+git submodule update --recursive --remote
+```
+
 add new subodules with:
 
 ```bash
