@@ -124,6 +124,7 @@ services:
       - TZ=Europe/Vienna
       - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/ttyUSB0
       - ZIGBEE2MQTT_CONFIG_MQTT_SERVER=mqtt://mqtt:1883
+      - ZIGBEE2MQTT_CONFIG_PERMIT_JOIN=false
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
     group_add:
