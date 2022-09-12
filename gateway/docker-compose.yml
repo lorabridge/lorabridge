@@ -38,6 +38,7 @@ services:
       - mosquitto
     networks:
       - loragatenet
+    restart: unless-stopped
 
   postgresql:
     image: postgres:14-alpine
