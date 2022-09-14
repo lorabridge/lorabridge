@@ -11,6 +11,12 @@ services:
       - mlog:/mosquitto/log
     networks:
       - lorabridgenet
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -C 1 -t '#' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 1
+      start_period: 15s
     # ports:
     #   - "1883:1883"
     #   - "9001:9001"
@@ -110,6 +116,12 @@ services:
     # ports:
     #     - "6379:6379"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 1
+      start_period: 15s
   zigbee2mqtt:
     container_name: zigbee2mqtt
     image: koenkk/zigbee2mqtt
