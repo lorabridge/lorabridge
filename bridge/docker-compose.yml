@@ -93,6 +93,7 @@ services:
       - ./config/ofelia.conf:/etc/ofelia.conf:ro
       - ofelia:/ofelia
     command: daemon
+    restart: unless-stopped
   redis:
     image: redis:7-alpine
     volumes:
@@ -135,6 +136,12 @@ services:
     # entrypoint: "tail -f /dev/null"
     networks:
       - lorabridgenet
+    healthcheck:
+      test: ["CMD-SHELL", "! tail -n2 data/log/$$(ls -1 data/log | tail -n1)/log.txt | grep failed || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 0
+      start_period: 10s
   lorawan_tx:
     # build: bridge-lorawan_tx
     image: ghcr.io/lorabridge/bridge-lorawan_tx:latest
@@ -186,7 +193,7 @@ services:
     depends_on: 
       - redis
       - sse
-    restart: on-failure
+    restart: unless-stopped
     networks: 
       - lorabridgenet
     # ports:
@@ -213,14 +220,14 @@ services:
       - lorabridgenet
     depends_on:
       - interface
-    restart: on-failure
+    restart: unless-stopped
   sse:
     # build:
     #   context: bridge-device-sse
     image: ghcr.io/lorabridge/bridge-device-sse:latest
     depends_on: 
       - zigbee2mqtt
-    restart: on-failure
+    restart: unless-stopped
     networks: 
       - lorabridgenet
     ports:
