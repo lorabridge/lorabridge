@@ -239,6 +239,12 @@ services:
     depends_on:
       - interface
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail 127.0.0.1:80 2>&1 | grep \"401 Unauthorized\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 1
+      start_period: 15s
   sse:
     # build:
     #   context: bridge-device-sse
