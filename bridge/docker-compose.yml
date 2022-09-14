@@ -220,6 +220,12 @@ services:
       - 3000
     user: 1337:1337
     read_only: true
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O - http://127.0.0.1:3000/device_attributes/health --spider -q || exit 1"]
+      interval: 15s
+      timeout: 15s
+      retries: 1
+      start_period: 15s
   interface-basic-auth:
     image: 'beevelop/nginx-basic-auth'
     ports:
@@ -262,6 +268,12 @@ services:
     read_only: true
     volumes: 
       - zdata:/usr/src/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget 127.0.0.1:8080/devices --spider -q || exit 1"]
+      interval: 15s
+      timeout: 15s
+      retries: 1
+      start_period: 15s
 volumes:
   mdata:
   mlog:
