@@ -53,6 +53,12 @@ services:
     networks:
       - loragatenet
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d chirpstack --username=chirpstack || exit 1"]
+      interval: 15s
+      timeout: 15s
+      retries: 1
+      start_period: 15s
 
   redis:
     image: redis:7-alpine
@@ -69,6 +75,12 @@ services:
             --appendonly "yes"
             '
     ]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 1
+      start_period: 15s
 
   mosquitto:
     image: eclipse-mosquitto:2
@@ -83,6 +95,12 @@ services:
       # - ./mosquitto/passwd:/mosquitto/passwd:ro
       - mdata:/mosquitto/data
       - mlog:/mosquitto/log
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -C 1 -t '#' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 1
+      start_period: 15s
 
   gateway_fwd:
     # build: gateway-forwarder
