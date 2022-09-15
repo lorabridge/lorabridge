@@ -180,6 +180,7 @@ services:
       - DEV_EUI=${LORA_DEV_EUI}
       - DEV_KEY=${LORA_DEV_KEY}
       - REDIS_LIST=${REDIS_LIST}
+      - USE_LB_GW=1
       # - ZIGBEE2MQTT_CONFIG_SERIAL_PORT=/dev/ttyUSB0
     devices:
       - /dev/spidev0.0:/dev/spidev0.0
