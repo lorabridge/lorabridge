@@ -71,7 +71,7 @@ __I forgot to do `git checkout main` _before_ I changed stuff:__
 No worries, nothing is lost. The workflow is just a little more annoying.
 
 - Just finish your changes
-- Add your changes files with `git add <file or . for all>`
+- Add your changed files with `git add <file or . for all>`
 - Commit your changes with `git commit`
   - > Now your commit exists, but it does not belong to any branch
 - Retrieve the commit hash of your commit with `git rev-parse HEAD` or use the top hash shown via `git log`
