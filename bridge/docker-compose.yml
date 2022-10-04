@@ -17,6 +17,7 @@ services:
       timeout: 5s
       retries: 1
       start_period: 15s
+      disable: true
     # ports:
     #   - "1883:1883"
     #   - "9001:9001"
@@ -106,6 +107,7 @@ services:
       timeout: 10s
       retries: 1
       start_period: 15s
+      disable: true
   redis:
     image: redis:7-alpine
     volumes:
@@ -128,6 +130,7 @@ services:
       timeout: 5s
       retries: 1
       start_period: 15s
+      disable: true
   zigbee2mqtt:
     container_name: zigbee2mqtt
     image: koenkk/zigbee2mqtt
@@ -160,6 +163,7 @@ services:
       timeout: 5s
       retries: 0
       start_period: 10s
+      disable: true
   lorawan_tx:
     # build: bridge-lorawan_tx
     image: ghcr.io/lorabridge/bridge-lorawan_tx:latest
@@ -227,6 +231,7 @@ services:
       timeout: 15s
       retries: 1
       start_period: 15s
+      disable: true
   interface-basic-auth:
     image: 'beevelop/nginx-basic-auth'
     ports:
@@ -252,6 +257,7 @@ services:
       timeout: 5s
       retries: 1
       start_period: 15s
+      disable: true
   sse:
     # build:
     #   context: bridge-device-sse
@@ -275,6 +281,7 @@ services:
       timeout: 15s
       retries: 1
       start_period: 15s
+      disable: true
 volumes:
   mdata:
   mlog:

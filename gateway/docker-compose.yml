@@ -59,6 +59,7 @@ services:
       timeout: 15s
       retries: 1
       start_period: 15s
+      disable: true
 
   redis:
     image: redis:7-alpine
@@ -81,6 +82,7 @@ services:
       timeout: 5s
       retries: 1
       start_period: 15s
+      disable: true
 
   mosquitto:
     image: eclipse-mosquitto:2
@@ -101,6 +103,7 @@ services:
       timeout: 5s
       retries: 1
       start_period: 15s
+      disable: true
 
   gateway_fwd:
     # build: gateway-forwarder
