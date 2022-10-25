@@ -202,6 +202,9 @@ services:
     image: localhost/sse:latest
     environment:
       - DEV_EUI=${LORA_DEV_EUI}
+      - redis_conn_string=redis://redis:6379
+      - mqtt_host=mqtt
+      - mqtt_port=1883
     depends_on:
       - zigbee2mqtt
       - redis

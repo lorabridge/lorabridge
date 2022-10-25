@@ -283,7 +283,10 @@ services:
       - redis
     restart: unless-stopped
     environment:
-      - DEV_EUI=${LORA_DEV_EUI}
+      - DEV_EUI=${LORA_DEV_EUI}-
+      - redis_conn_string=redis://redis:6379
+      - mqtt_host=mqtt
+      - mqtt_port=1883
     networks:
       - lorabridgenet
     ports:
