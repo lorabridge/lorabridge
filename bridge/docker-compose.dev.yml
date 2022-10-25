@@ -14,22 +14,22 @@ services:
     # ports:
     #   - "1883:1883"
     #   - "9001:9001"
-  # generator:
-  #   build: generator
-  #   image: localhost/generator:latest
-  #   depends_on:
-  #     - mosquitto
-  #   environment:
-  #     - GEN_MQTT_USERNAME=${MQTT_USERNAME}
-  #     - GEN_MQTT_PASSWORD=${MQTT_PASSWORD}
-  #     - GEN_MQTT_HOST=${MQTT_HOST}
-  #     - GEN_MQTT_PORT=${MQTT_PORT}
-  #     - GEN_MQTT_TOPIC=${MQTT_TOPIC}
-  #     - GEN_INTERVAL_MS=${INTERVAL_MS}
-  #     - PYTHONUNBUFFERED=1
-  #   restart: unless-stopped
-  #   networks:
-  #     - lorabridgenet
+    # generator:
+    #   build: generator
+    #   image: localhost/generator:latest
+    #   depends_on:
+    #     - mosquitto
+    #   environment:
+    #     - GEN_MQTT_USERNAME=${MQTT_USERNAME}
+    #     - GEN_MQTT_PASSWORD=${MQTT_PASSWORD}
+    #     - GEN_MQTT_HOST=${MQTT_HOST}
+    #     - GEN_MQTT_PORT=${MQTT_PORT}
+    #     - GEN_MQTT_TOPIC=${MQTT_TOPIC}
+    #     - GEN_INTERVAL_MS=${INTERVAL_MS}
+    #     - PYTHONUNBUFFERED=1
+    #   restart: unless-stopped
+    #   networks:
+    #     - lorabridgenet
   forwarder:
     build: bridge-forwarder
     image: localhost/forwarder:latest
@@ -97,16 +97,15 @@ services:
   redis:
     image: redis:7-alpine
     volumes:
-        - redis-data:/data
-    command: [
-            "sh", "-c",
-            '
-            docker-entrypoint.sh
-            --appendonly "yes"
-            '
-    ]
+      - redis-data:/data
+    command:
+      [
+        "sh",
+        "-c",
+        ' docker-entrypoint.sh --appendonly "yes" '
+      ]
     networks:
-        - lorabridgenet
+      - lorabridgenet
     # ports:
     #     - "6379:6379"
     restart: unless-stopped
@@ -163,15 +162,15 @@ services:
       - /dev/gpiomem:/dev/gpiomem
       # - /dev/mem:/dev/mem
       # - /dev/ttyAMA0:/dev/ttyAMA0
-    # privileged: true
-    # cap_add:
-    #   - SYS_RAWIO
+      # privileged: true
+      # cap_add:
+      #   - SYS_RAWIO
     group_add:
       - "999"
       - "997"
       # - spi
-    # needs root, because of /sys
-    # user: 1337:1337
+      # needs root, because of /sys
+      # user: 1337:1337
     networks:
       - lorabridgenet
     depends_on:
@@ -186,11 +185,12 @@ services:
     environment:
       - VITE_SSE_ADDR=http://sse:8080
     image: localhost/interface:latest
-    depends_on: 
+    depends_on:
       - redis
       - sse
+      - mosquitto
     restart: on-failure
-    networks: 
+    networks:
       - lorabridgenet
     ports:
       - "3000:3000"
@@ -200,10 +200,13 @@ services:
     build:
       context: bridge-device-sse
     image: localhost/sse:latest
-    depends_on: 
+    environment:
+      - DEV_EUI=${LORA_DEV_EUI}
+    depends_on:
       - zigbee2mqtt
+      - redis
     restart: on-failure
-    networks: 
+    networks:
       - lorabridgenet
     ports:
       - "8080:8080"
@@ -211,8 +214,9 @@ services:
     #   - 8080
     user: 1337:1337
     read_only: true
-    volumes: 
+    volumes:
       - zdata:/usr/src/app/data
+      - ofelia:/usr/src/app/stats:ro
 volumes:
   mdata:
   mlog:
@@ -220,6 +224,6 @@ volumes:
   zdata:
   ofelia:
 networks:
-    lorabridgenet:
-        attachable: true
-        name: lorabridgenet
+  lorabridgenet:
+    attachable: true
+    name: lorabridgenet

@@ -12,7 +12,7 @@ services:
     networks:
       - lorabridgenet
     healthcheck:
-      test: ["CMD-SHELL", "mosquitto_sub -C 1 -t '#' || exit 1"]
+      test: [ "CMD-SHELL", "mosquitto_sub -C 1 -t '#' || exit 1" ]
       interval: 5s
       timeout: 5s
       retries: 1
@@ -21,22 +21,22 @@ services:
     # ports:
     #   - "1883:1883"
     #   - "9001:9001"
-  # generator:
-  #   build: generator
-  #   image: localhost/generator:latest
-  #   depends_on:
-  #     - mosquitto
-  #   environment:
-  #     - GEN_MQTT_USERNAME=${MQTT_USERNAME}
-  #     - GEN_MQTT_PASSWORD=${MQTT_PASSWORD}
-  #     - GEN_MQTT_HOST=${MQTT_HOST}
-  #     - GEN_MQTT_PORT=${MQTT_PORT}
-  #     - GEN_MQTT_TOPIC=${MQTT_TOPIC}
-  #     - GEN_INTERVAL_MS=${INTERVAL_MS}
-  #     - PYTHONUNBUFFERED=1
-  #   restart: unless-stopped
-  #   networks:
-  #     - lorabridgenet
+    # generator:
+    #   build: generator
+    #   image: localhost/generator:latest
+    #   depends_on:
+    #     - mosquitto
+    #   environment:
+    #     - GEN_MQTT_USERNAME=${MQTT_USERNAME}
+    #     - GEN_MQTT_PASSWORD=${MQTT_PASSWORD}
+    #     - GEN_MQTT_HOST=${MQTT_HOST}
+    #     - GEN_MQTT_PORT=${MQTT_PORT}
+    #     - GEN_MQTT_TOPIC=${MQTT_TOPIC}
+    #     - GEN_INTERVAL_MS=${INTERVAL_MS}
+    #     - PYTHONUNBUFFERED=1
+    #   restart: unless-stopped
+    #   networks:
+    #     - lorabridgenet
   forwarder:
     # build: bridge-forwarder
     image: ghcr.io/lorabridge/bridge-forwarder:latest
@@ -102,7 +102,11 @@ services:
     command: daemon
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "! head -n1 /proc/1/fd/1 | grep -E \"(ERROR|failed: true)\" || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "! head -n1 /proc/1/fd/1 | grep -E \"(ERROR|failed: true)\" || exit 1"
+        ]
       interval: 10s
       timeout: 10s
       retries: 1
@@ -111,21 +115,20 @@ services:
   redis:
     image: redis:7-alpine
     volumes:
-        - redis-data:/data
-    command: [
-            "sh", "-c",
-            '
-            docker-entrypoint.sh
-            --appendonly "yes"
-            '
-    ]
+      - redis-data:/data
+    command:
+      [
+        "sh",
+        "-c",
+        ' docker-entrypoint.sh --appendonly "yes" '
+      ]
     networks:
-        - lorabridgenet
+      - lorabridgenet
     # ports:
     #     - "6379:6379"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 5s
       timeout: 5s
       retries: 1
@@ -158,7 +161,11 @@ services:
     networks:
       - lorabridgenet
     healthcheck:
-      test: ["CMD-SHELL", "! tail -n2 data/log/$$(ls -1 data/log | tail -n1)/log.txt | grep failed || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "! tail -n2 data/log/$$(ls -1 data/log | tail -n1)/log.txt | grep failed || exit 1"
+        ]
       interval: 5s
       timeout: 5s
       retries: 0
@@ -192,15 +199,15 @@ services:
       - /dev/gpiomem:/dev/gpiomem
       # - /dev/mem:/dev/mem
       # - /dev/ttyAMA0:/dev/ttyAMA0
-    # privileged: true
-    # cap_add:
-    #   - SYS_RAWIO
+      # privileged: true
+      # cap_add:
+      #   - SYS_RAWIO
     group_add:
       - "999"
       - "997"
       # - spi
-    # need root, because of /sys
-    # user: 1337:1337
+      # need root, because of /sys
+      # user: 1337:1337
     networks:
       - lorabridgenet
     depends_on:
@@ -213,11 +220,12 @@ services:
     #     VITE_SSE_ADDR: http://sse:8080
     #     VITE_REDIS_CONN_STRING: redis://redis:6379
     image: ghcr.io/lorabridge/bridge-device-interface:latest
-    depends_on: 
+    depends_on:
       - redis
       - sse
+      - mosquitto
     restart: unless-stopped
-    networks: 
+    networks:
       - lorabridgenet
     # ports:
     #   - "3000:3000"
@@ -226,7 +234,11 @@ services:
     user: 1337:1337
     read_only: true
     healthcheck:
-      test: ["CMD-SHELL", "wget -O - http://127.0.0.1:3000/device_attributes/health --spider -q || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget -O - http://127.0.0.1:3000/device_attributes/health --spider -q || exit 1"
+        ]
       interval: 15s
       timeout: 15s
       retries: 1
@@ -252,7 +264,11 @@ services:
       - interface
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail 127.0.0.1:80 2>&1 | grep \"401 Unauthorized\" || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl --fail 127.0.0.1:80 2>&1 | grep \"401 Unauthorized\" || exit 1"
+        ]
       interval: 10s
       timeout: 5s
       retries: 1
@@ -262,10 +278,13 @@ services:
     # build:
     #   context: bridge-device-sse
     image: ghcr.io/lorabridge/bridge-device-sse:latest
-    depends_on: 
+    depends_on:
       - zigbee2mqtt
+      - redis
     restart: unless-stopped
-    networks: 
+    environment:
+      - DEV_EUI=${LORA_DEV_EUI}
+    networks:
       - lorabridgenet
     ports:
       - "8080:8080"
@@ -273,10 +292,15 @@ services:
     #   - 8080
     user: 1337:1337
     read_only: true
-    volumes: 
+    volumes:
       - zdata:/usr/src/app/data
+      - ofelia:/usr/src/app/stats:ro
     healthcheck:
-      test: ["CMD-SHELL", "wget 127.0.0.1:8080/devices --spider -q || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget 127.0.0.1:8080/devices --spider -q || exit 1"
+        ]
       interval: 15s
       timeout: 15s
       retries: 1
@@ -289,6 +313,6 @@ volumes:
   zdata:
   ofelia:
 networks:
-    lorabridgenet:
-        attachable: true
-        name: lorabridgenet
+  lorabridgenet:
+    attachable: true
+    name: lorabridgenet
