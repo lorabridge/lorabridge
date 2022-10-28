@@ -80,7 +80,7 @@
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 LoRaBridge enables a range extension for wireless sensors via LoRaWAN. With a boosted range, e.g. home automation sensors can be mounted
-in locations, which are hard to reach with medium/short range wireless connectivity, such as cellars, attics or garden houses.
+in locations, such as cellars, attics or garden houses, which are hard to reach with medium/short range connectivity.
 
 The two key components of the LoRaBridge are: 
 1) The Bridge unit - Collects, compresses and transmits sensor data over LoRaWAN 
