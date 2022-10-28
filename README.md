@@ -28,10 +28,10 @@
 <br />
 <div align="center">
   <a href="[https://github.com/othneildrew/Best-README-Template](https://github.com/lorabridge/lorabridge)">
-    <img src="https://github.com/lorabridge/docs-internal/blob/main/literature/docs/assets/loradatabridge_logo_large.png" alt="Logo" width="120">
+    <img src="https://github.com/lorabridge/docs-internal/blob/main/literature/docs/assets/loradatabridge_logo_large.png" alt="Logo" width="220">
   </a>
 
-  <h3 align="center">Long-Range Data Bridge (LoRa Bridge)</h3>
+  <h2 align="center">Long-Range Data Bridge (LoRaBridge)</h2>
 
   <p align="center">
     Convert your cheap Zigbee sensors into LPWAN sensors!
@@ -79,16 +79,15 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+LoRaBridge enables a range extension for wireless sensors via LoRaWAN. With a boosted range, e.g. home automation sensors can be mounted
+in locations, which are hard to reach with medium/short range wireless connectivity, such as cellars, attics or garden houses.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+The two key components of the LoRaBridge are: 
+1) The Bridge unit - Collects, compresses and transmits sensor data over LoRaWAN 
+2) The Gateway unit - Receives, decompresses and forwards the sensor data to a backend system. 
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+At the moment the full installation of LoRaBridge connects Zigbee sensors (supported by Zigbee2MQTT) to Home Assistant home automation framework. 
+For details on how to customize LoRaBridge for your own needs, please refer to developer manual (TODO: add link)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
