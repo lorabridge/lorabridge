@@ -77,7 +77,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+<img src="https://github.com/lorabridge/docs-internal/blob/main/literature/docs/assets/lorabridge_frontpage_system_diagram.png" alt="Logo" width="1000">
+  
 
 LoRaBridge enables a range extension for wireless sensors via LoRaWAN. With a boosted range, e.g. home automation sensors can be mounted
 in locations, such as cellars, attics or garden houses, which are hard to reach with medium/short range connectivity.
