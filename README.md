@@ -16,13 +16,7 @@
 
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -54,7 +48,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#features">Features</a></li>
       </ul>
     </li>
     <li>
@@ -91,8 +85,14 @@ The two key components of the LoRaBridge are:
 At the moment the full installation of LoRaBridge connects Zigbee sensors (supported by Zigbee2MQTT) to Home Assistant home automation framework. 
 For details on how to customize LoRaBridge for your own needs, please refer to developer manual (TODO: add link)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Features
+
+- Compression and scheduling algorithms enable range extension for multiple Zigbee sensors over a single LoRaWAN connection
+- Easy to use single button UI for Zigbee device pairing
+- Web UI for device management
+- Preinstalled Zigbee2MQTT and Home Assistant frameworks
+- Ansible setup scripts for automated deployment
 
 ## Developer setup
 In order to better separate and organize individual parts of our project, we created a dedidacted repository for each part and combined them via git submodules in the `lorabridge` repository.
@@ -187,6 +187,13 @@ git clone git@github.com:lorabridge/lorabridge.git
 ```bash
 cat ~/.github_pac | docker login ghcr.io -u lorabridgepi --password-stdin
 ```
+
+## Known issues and limitations
+
+- Range extension is available only for uplink communication (e.g. Zigbee sensor values)
+- Range extensions over large distances may likely cause data loss due to Zigbee sensor data rate is exceeded by the LoRaWAN link data rate.
+- Operation has been verified with a small subset of sensors supported by Zigbee2MQTT
+- LoRaWAN reception might become instable due to lack of realtime support in Raspberry PI OS
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
