@@ -62,15 +62,15 @@
 <img src="https://github.com/lorabridge/docs-internal/blob/main/literature/docs/assets/lorabridge_frontpage_system_diagram.png" alt="Logo" width="1000">
   
 
-LoRaBridge enables a range extension for wireless sensors via LoRaWAN. With a boosted range, e.g. home automation sensors can be mounted
+LoRaBridge delivers range extension for wireless sensors via LoRaWAN. Hence, e.g., home automation sensors can be mounted
 in locations, such as cellars, attics or garden houses, which are hard to reach with medium/short range connectivity.
 
-The two key components of the LoRaBridge are: 
-1) The Bridge unit - Collects, compresses and transmits sensor data over LoRaWAN 
-2) The Gateway unit - Receives, decompresses and forwards the sensor data to a backend system. 
+The two key components of LoRaBridge are: 
+1) <i> Bridge unit </i> - Collects, compresses and transmits sensor data over LoRaWAN 
+2) <i> Gateway unit </i> - Receives, decompresses and forwards the sensor data to a backend system. 
 
-At the moment the full installation of LoRaBridge connects Zigbee sensors (supported by Zigbee2MQTT) to Home Assistant home automation framework. 
-For details on how to customize LoRaBridge for your own needs, please refer to developer manual (TODO: add link)
+Currently the full installation of LoRaBridge connects Zigbee sensors (supported by <a href="https://www.zigbee2mqtt.io/">Zigbee2MQTT</a>) to <a href="https://www.home-assistant.io/">Home Assistant</a>. 
+For details on how to customize LoRaBridge for your own needs, please refer to the developer manual (TODO: add link)
 
 
 ### Features
@@ -78,7 +78,7 @@ For details on how to customize LoRaBridge for your own needs, please refer to d
 - Compression and scheduling algorithms enable range extension for multiple Zigbee sensors over a single LoRaWAN connection
 - Easy to use single button UI for Zigbee device pairing
 - Web UI for device management
-- Preinstalled Zigbee2MQTT and Home Assistant frameworks
+- Preinstalled Zigbee2MQTT and Home Assistant containers
 - Ansible setup scripts for automated deployment
 
 ## Developer setup
