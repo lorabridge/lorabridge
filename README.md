@@ -6,38 +6,25 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+
 <a name="readme-top"></a>
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="[https://github.com/othneildrew/Best-README-Template](https://github.com/lorabridge/lorabridge)">
+  <a href="[https://github.com/lorabridge/lorabridge](https://github.com/lorabridge/lorabridge)">
     <img src="https://github.com/lorabridge/docs-internal/blob/main/literature/docs/assets/loradatabridge_logo_large.png" alt="Logo" width="220">
   </a>
 
   <h2 align="center">Long-Range Data Bridge (LoRaBridge)</h2>
 
   <p align="center">
-    Convert your cheap Zigbee sensors into LPWAN sensors!
+    Convert your cheap Zigbee sensors into LoRaWAN sensors!
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>   
   </p>
 </div>
 
@@ -194,6 +181,21 @@ cat ~/.github_pac | docker login ghcr.io -u lorabridgepi --password-stdin
 - Range extensions over large distances may likely cause data loss due to Zigbee sensor data rate is exceeded by the LoRaWAN link data rate.
 - Operation has been verified with a small subset of sensors supported by Zigbee2MQTT
 - LoRaWAN reception might become instable due to lack of realtime support in Raspberry PI OS
+
+## License
+
+All the LoRaBridge software components and the documentation are licensed under GNU General Public License 3.0.
+
+## Contact
+
+For business inquiries or research co-operations, please refer to 
+
+## Acknowledgements
+
+The financial support from Internetstiftung/Netidee is gratefully acknowledged. The mission of Netidee is to support development of open-source tools for more accessible and versatile use of the Internet in Austria.
+
+
+
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
