@@ -62,7 +62,7 @@
 <img src="https://github.com/lorabridge/docs-internal/blob/main/literature/docs/assets/lorabridge_frontpage_system_diagram.png" alt="Logo" width="1000">
   
 
-LoRaBridge delivers range extension for wireless sensors via LoRaWAN. Hence, e.g., home automation sensors can be mounted
+LoRaBridge delivers range extension for wireless ZigBee sensors via LoRaWAN. Hence, e.g., home automation sensors can be mounted
 in locations, such as cellars, attics or garden houses, which are hard to reach with medium/short range connectivity.
 
 The two key components of LoRaBridge are: 
