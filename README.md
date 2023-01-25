@@ -24,7 +24,7 @@
   <p align="center">
     Convert your cheap Zigbee sensors into LoRaWAN sensors!
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>   
+    <a href="https://lorabridge.github.io/"><strong>Explore the docs »</strong></a>   
   </p>
 </div>
 
@@ -70,7 +70,7 @@ The two key components of LoRaBridge are:
 2) <i> Gateway unit </i> - Receives, decompresses and forwards the sensor data to a backend system. 
 
 Currently the full installation of LoRaBridge connects Zigbee sensors (supported by <a href="https://www.zigbee2mqtt.io/">Zigbee2MQTT</a>) to <a href="https://www.home-assistant.io/">Home Assistant</a>. 
-For details on how to customize LoRaBridge for your own needs, please refer to the developer manual (TODO: add link)
+For details on how to customize LoRaBridge for your own needs, please refer to the [developer manual](https://lorabridge.github.io/development/dev.html).
 
 
 ### Features
