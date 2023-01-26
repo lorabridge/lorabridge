@@ -94,7 +94,7 @@ All the LoRaBridge software components and the documentation are licensed under 
 
 ## Contact
 
-For business inquiries or research co-operations, please refer to 
+Contact information of the [development team](https://isf.fhstp.ac.at/en/team/henri-ruotsalainen)
 
 ## Acknowledgements
 
