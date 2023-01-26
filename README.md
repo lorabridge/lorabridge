@@ -16,7 +16,7 @@
 <br />
 <div align="center">
   <a href="[https://github.com/lorabridge/lorabridge](https://github.com/lorabridge/lorabridge)">
-    <img src="https://github.com/lorabridge/docs-internal/blob/main/literature/docs/assets/loradatabridge_logo_large.png" alt="Logo" width="220">
+    <img src="https://github.com/lorabridge/lorabridge.github.io/blob/main/docs/assets/loradatabridge_logo_large.png" alt="Logo" width="220">
   </a>
 
   <h2 align="center">Long-Range Data Bridge (LoRaBridge)</h2>
@@ -59,7 +59,7 @@
 ## About The Project
 
 
-<img src="https://github.com/lorabridge/docs-internal/blob/main/literature/docs/assets/lorabridge_frontpage_system_diagram.png" alt="Logo" width="1000">
+<img src="https://github.com/lorabridge/lorabridge.github.io/blob/main/docs/assets/lorabridge_frontpage_system_diagram.png" alt="Logo" width="1000">
   
 
 LoRaBridge delivers range extension for wireless ZigBee sensors via LoRaWAN. Hence, e.g., home automation sensors can be mounted
