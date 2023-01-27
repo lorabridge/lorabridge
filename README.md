@@ -73,13 +73,17 @@ Currently the full installation of LoRaBridge connects Zigbee sensors (supported
 For details on how to customize LoRaBridge for your own needs, please refer to the [developer manual](https://lorabridge.github.io/development/dev.html).
 
 
-### Features
+## Features
 
 - Compression and scheduling algorithms enable range extension for multiple Zigbee sensors over a single LoRaWAN connection
 - Easy to use single button UI for Zigbee device pairing
 - Web UI for device management
 - Preinstalled Zigbee2MQTT and Home Assistant containers
 - Ansible setup scripts for automated deployment
+
+## Installation
+
+Check out [user manual](https://lorabridge.github.io/setup/Installation.html) for installation and usage.
 
 ## Known issues and limitations
 
