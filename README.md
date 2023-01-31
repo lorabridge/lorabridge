@@ -88,7 +88,7 @@ Check out [user manual](https://lorabridge.github.io/setup/Installation.html) fo
 ## Known issues and limitations
 
 - Range extension is available only for uplink communication (e.g. Zigbee sensor values)
-- Range extensions over large distances may likely cause data loss due to Zigbee sensor data rate is exceeded by the LoRaWAN link data rate.
+- Range extensions over large distances may likely cause data loss&latency due to Zigbee sensor data rate exceeding the LoRaWAN link data rate.
 - Operation has been verified with a small subset of sensors supported by Zigbee2MQTT
 - LoRaWAN reception might become instable due to lack of realtime support in Raspberry PI OS
 
