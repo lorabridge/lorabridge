@@ -62,6 +62,7 @@
   #
   # Multiple regions can be enabled simultaneously. Each region must match
   # the 'name' parameter of the region configuration in '[[regions]]'.
+  enabled_regions=["eu868"]
 
 
 # API interface configuration.
