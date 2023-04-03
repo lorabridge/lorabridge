@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   chirpstack:
-    image: chirpstack/chirpstack:4
+    image: chirpstack/chirpstack:4.3
     command: -c /etc/chirpstack
     restart: unless-stopped
     environment:
@@ -23,7 +23,7 @@ services:
       - loragatenet
 
   chirpstack-gateway-bridge:
-    image: chirpstack/chirpstack-gateway-bridge:4
+    image: chirpstack/chirpstack-gateway-bridge:4.0
     # ports:
     #   - 1700:1700/udp
     # volumes:
@@ -85,7 +85,7 @@ services:
       disable: true
 
   mosquitto:
-    image: eclipse-mosquitto:2
+    image: eclipse-mosquitto:2.0
     container_name: mqtt
     # ports:
     #   - 1883:1883

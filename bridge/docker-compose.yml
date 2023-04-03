@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   mosquitto:
-    image: eclipse-mosquitto:2
+    image: eclipse-mosquitto:2.0
     container_name: mqtt
     restart: unless-stopped
     volumes:
@@ -94,7 +94,7 @@ services:
     networks:
       - lorabridgenet
   ofelia:
-    image: mcuadros/ofelia:latest
+    image: mcuadros/ofelia:v0.3.7
     network_mode: host
     volumes:
       - ./config/ofelia.conf:/etc/ofelia.conf:ro
@@ -136,7 +136,7 @@ services:
       disable: true
   zigbee2mqtt:
     container_name: zigbee2mqtt
-    image: koenkk/zigbee2mqtt
+    image: koenkk/zigbee2mqtt:1.30.3
     restart: unless-stopped
     volumes:
       # - ./data:/app/data
@@ -245,7 +245,7 @@ services:
       start_period: 15s
       disable: true
   interface-basic-auth:
-    image: 'beevelop/nginx-basic-auth'
+    image: 'beevelop/nginx-basic-auth' # no other non outdated/dev tags
     ports:
       - '3000:80'
     environment:
