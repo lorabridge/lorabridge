@@ -136,7 +136,10 @@ services:
     networks:
       - lorabridgenet
   lorawan_tx:
-    build: bridge-lorawan_tx
+    build: 
+      context: bridge-lorawan_tx
+      args: 
+        - IMG_VERSION=3
     image: localhost/lorawan_tx:latest
     restart: unless-stopped
     volumes:

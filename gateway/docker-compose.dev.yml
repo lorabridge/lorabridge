@@ -85,7 +85,10 @@ services:
       - mlog:/mosquitto/log
 
   gateway_fwd:
-    build: gateway-forwarder
+    build: 
+      context: gateway-forwarder
+      args:
+        - IMG_VERSION=3
     image: localhost/gateway_fwd:latest
     restart: unless-stopped
     volumes:
@@ -123,7 +126,10 @@ services:
       - chirpstack-gateway-bridge
 
   homeassistant:
-    build: gateway-home-assistant
+    build: 
+      context: gateway-home-assistant
+      args:
+        - IMG_VERSION=stable
     container_name: homeassistant
     # image: "ghcr.io/home-assistant/home-assistant:stable"
     depends_on: 
