@@ -1,40 +1,40 @@
 [submodule "bridge/bridge-forwarder"]
 	path = bridge/bridge-forwarder
-	url = git@github.com:lorabridge/bridge-forwarder.git
+	url = https://github.com/lorabridge/bridge-forwarder.git
 	update = merge
 [submodule "bridge/bridge-lorawan_tx"]
 	path = bridge/bridge-lorawan_tx
-	url = git@github.com:lorabridge/bridge-lorawan_tx.git
+	url = https://github.com/lorabridge/bridge-lorawan_tx.git
 	update = merge
 [submodule "gateway/gateway-home-assistant"]
 	path = gateway/gateway-home-assistant
-	url = git@github.com:lorabridge/gateway-home-assistant.git
+	url = https://github.com/lorabridge/gateway-home-assistant.git
 	update = merge
 [submodule "gateway/gateway-ha_integration"]
 	path = gateway/gateway-ha_integration
-	url = git@github.com:lorabridge/gateway-ha_integration.git
+	url = https://github.com/lorabridge/gateway-ha_integration.git
 	update = merge
 [submodule "gateway/gateway-forwarder"]
 	path = gateway/gateway-forwarder
-	url = git@github.com:lorabridge/gateway-forwarder.git
+	url = https://github.com/lorabridge/gateway-forwarder.git
 	update = merge
 [submodule "gateway/gateway-device_manager"]
 	path = gateway/gateway-device_manager
-	url = git@github.com:lorabridge/gateway-device_manager.git
+	url = https://github.com/lorabridge/gateway-device_manager.git
 	update = merge
 [submodule "gateway/gateway-converter"]
 	path = gateway/gateway-converter
-	url = git@github.com:lorabridge/gateway-converter.git
+	url = https://github.com/lorabridge/gateway-converter.git
 	update = merge
 [submodule "bridge/bridge-device-sse"]
 	path = bridge/bridge-device-sse
-	url = git@github.com:lorabridge/bridge-device-sse.git
+	url = https://github.com/lorabridge/bridge-device-sse.git
 	update = merge
 [submodule "bridge/bridge-device-interface"]
 	path = bridge/bridge-device-interface
-	url = git@github.com:lorabridge/bridge-device-interface.git
+	url = https://github.com/lorabridge/bridge-device-interface.git
 	update = merge
 [submodule "bridge/bridge-lcd-ui"]
 	path = bridge/bridge-lcd-ui
-	url = git@github.com:lorabridge/bridge-lcd-ui.git
+	url = https://github.com/lorabridge/bridge-lcd-ui.git
 	update = merge
