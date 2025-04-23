@@ -1,3 +1,6 @@
+> [!WARNING]
+> This project is **deprecated**. Check out the **successor** [LoRaBridge2](https://github.com/lorabridge2/lorabridge).
+
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
